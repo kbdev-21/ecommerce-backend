@@ -1,4 +1,4 @@
-package com.example.server.helper;
+package com.example.server.common.helper;
 
 import java.text.Normalizer;
 import java.util.regex.Pattern;

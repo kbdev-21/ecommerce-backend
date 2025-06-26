@@ -5,7 +5,7 @@ import com.example.server.dto.product.ResponseProductDto;
 import com.example.server.entity.Item;
 import com.example.server.entity.Product;
 import com.example.server.entity.Spec;
-import com.example.server.helper.StringHelper;
+import com.example.server.common.helper.StringHelper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

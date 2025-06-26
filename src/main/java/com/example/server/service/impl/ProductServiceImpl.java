@@ -2,20 +2,15 @@ package com.example.server.service.impl;
 
 import com.example.server.dto.product.CreateProductDto;
 import com.example.server.dto.product.ResponseProductDto;
-import com.example.server.entity.Item;
 import com.example.server.entity.Product;
-import com.example.server.entity.Spec;
-import com.example.server.helper.StringHelper;
+import com.example.server.exception.custom.NotFoundException;
 import com.example.server.mapper.ProductMapper;
 import com.example.server.repository.ProductRepository;
 import com.example.server.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +35,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseProductDto getProductByCode(String code) {
-        Product product = productRepository.findByCode(code).orElseThrow();
+        Product product = productRepository.findByCode(code)
+                .orElseThrow(() -> new NotFoundException("Product not found."));
         return productMapper.toResponseDto(product);
     }
 }
