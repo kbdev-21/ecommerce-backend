@@ -1,1 +1,1 @@
-A Spring Boot back-end application built with enterprise-grade practices.
+An E-Commerce Spring Boot back-end application built with enterprise-level standards.
