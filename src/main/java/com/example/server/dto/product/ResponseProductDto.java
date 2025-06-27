@@ -20,6 +20,8 @@ public class ResponseProductDto {
 
     private String name;
 
+    private String searchName;
+
     private String brand;
 
     private String category;

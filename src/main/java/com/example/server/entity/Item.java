@@ -56,4 +56,8 @@ public class Item {
 
     @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
+
+    public String getNameAndVariant()  {
+        return product.getName() + " (" + variant + ")";
+    }
 }

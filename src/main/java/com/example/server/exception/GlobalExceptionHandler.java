@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
                 .body(new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), message, null));
     }
 
-    /* Missing or invalid request body */
+    /* missing or invalid request body */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponse<Object>> handleHttpMessageNotReadable(HttpMessageNotReadableException e) {
         return ResponseEntity

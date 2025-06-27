@@ -3,6 +3,7 @@ package com.example.server.controller;
 import com.example.server.common.record.ApiResponse;
 import com.example.server.dto.product.CreateProductDto;
 import com.example.server.dto.product.ResponseProductDto;
+import com.example.server.dto.product.UpdateProductGeneralDto;
 import com.example.server.entity.Product;
 import com.example.server.service.ProductService;
 import jakarta.validation.Valid;
@@ -40,5 +41,25 @@ public class ProductController {
                 HttpStatus.OK.value(),
                 "Product retrieved successfully.",
                 productService.getProductByCode(code));
+    }
+
+    @GetMapping("/api/v1/products/by-searchname/{searchName}")
+    public ApiResponse<ResponseProductDto> getProductBySearchName(@PathVariable String searchName) {
+        return new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Product retrieved successfully.",
+                productService.getProductBySearchName(searchName));
+    }
+
+    @PatchMapping("/api/v1/products/by-code/{code}")
+    public ApiResponse<ResponseProductDto> updateProductGeneralByCode(
+            @PathVariable String code,
+            @Valid @RequestBody UpdateProductGeneralDto updateProductGeneralDto) {
+
+        return new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Product updated successfully.",
+                productService.updateProductGeneralByCode(code, updateProductGeneralDto)
+        );
     }
 }

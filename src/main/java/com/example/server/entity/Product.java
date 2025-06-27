@@ -24,10 +24,10 @@ public class Product {
     @Column(name = "code", nullable = false, unique = true, updatable = false)
     private String code;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "search_name", nullable = false)
+    @Column(name = "search_name", nullable = false, unique = true)
     private String searchName;
 
     @Column(name = "brand", nullable = false)
