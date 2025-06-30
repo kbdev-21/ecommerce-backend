@@ -52,7 +52,7 @@ public class ProductController {
                 productService.getProductBySearchName(searchName));
     }
 
-    @PatchMapping("/api/v1/products/by-code/{code}")
+    @PatchMapping("/api/v1/products/general/by-code/{code}")
     public ApiResponse<ResponseProductDto> updateProductGeneralByCode(
             @PathVariable String code,
             @Valid @RequestBody UpdateProductGeneralDto updateProductGeneralDto) {
