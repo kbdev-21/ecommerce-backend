@@ -1,6 +1,6 @@
 package com.example.server.dto.item;
 
-import com.example.server.dto.product.CreateProductDtoItemSpec;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -33,5 +33,19 @@ public class CreateItemDto {
     @NotNull
     private int stock;
 
+    @Valid
     private List<CreateItemDtoSpec> specs;
+
+
+
+    @Data
+    public static class CreateItemDtoSpec {
+        @NotBlank
+        @Length(max = 20)
+        private String key;
+
+        @NotBlank
+        @Length(max = 200)
+        private String value;
+    }
 }

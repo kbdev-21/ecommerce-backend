@@ -1,6 +1,7 @@
 package com.example.server.controller;
 
 import com.example.server.common.record.ApiResponse;
+import com.example.server.dto.item.CreateItemDto;
 import com.example.server.dto.product.CreateProductDto;
 import com.example.server.dto.product.ResponseProductDto;
 import com.example.server.dto.product.UpdateProductGeneralDto;
@@ -55,11 +56,19 @@ public class ProductController {
     public ApiResponse<ResponseProductDto> updateProductGeneralByCode(
             @PathVariable String code,
             @Valid @RequestBody UpdateProductGeneralDto updateProductGeneralDto) {
-
         return new ApiResponse<>(
                 HttpStatus.OK.value(),
                 "Product updated successfully.",
                 productService.updateProductGeneralByCode(code, updateProductGeneralDto)
+        );
+    }
+
+    @PostMapping("/api/v1/products/items")
+    public ApiResponse<ResponseProductDto> createItem(@Valid @RequestBody CreateItemDto createItemDto) {
+        return new ApiResponse<>(
+                HttpStatus.CREATED.value(),
+                "Item created successfully.",
+                productService.createItem(createItemDto)
         );
     }
 }

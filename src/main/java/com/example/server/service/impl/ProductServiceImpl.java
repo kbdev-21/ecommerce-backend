@@ -1,11 +1,15 @@
 package com.example.server.service.impl;
 
+import com.example.server.dto.item.CreateItemDto;
 import com.example.server.dto.product.CreateProductDto;
 import com.example.server.dto.product.ResponseProductDto;
 import com.example.server.dto.product.UpdateProductGeneralDto;
+import com.example.server.entity.Item;
 import com.example.server.entity.Product;
 import com.example.server.exception.custom.NotFoundException;
+import com.example.server.mapper.ItemMapper;
 import com.example.server.mapper.ProductMapper;
+import com.example.server.repository.ItemRepository;
 import com.example.server.repository.ProductRepository;
 import com.example.server.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +24,9 @@ import java.util.List;
 @Transactional
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final ItemRepository itemRepository;
     private final ProductMapper productMapper;
+    private final ItemMapper itemMapper;
 
     @Override
     public ResponseProductDto createProduct(CreateProductDto createProductDto) {
@@ -88,5 +94,15 @@ public class ProductServiceImpl implements ProductService {
             return productMapper.toResponseDto(savedProduct);
         }
         return productMapper.toResponseDto(product);
+    }
+
+    @Override
+    public ResponseProductDto createItem(CreateItemDto createItemDto) {
+        Item newItem = itemMapper.fromCreateDto(createItemDto);
+        itemRepository.save(newItem);
+
+        Product updatedProduct = newItem.getProduct();
+
+        return productMapper.toResponseDto(updatedProduct);
     }
 }

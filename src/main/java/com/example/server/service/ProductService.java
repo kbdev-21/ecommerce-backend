@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.dto.item.CreateItemDto;
 import com.example.server.dto.product.CreateProductDto;
 import com.example.server.dto.product.ResponseProductDto;
 import com.example.server.dto.product.UpdateProductGeneralDto;
@@ -16,4 +17,6 @@ public interface ProductService {
     ResponseProductDto getProductBySearchName(String searchName);
 
     ResponseProductDto updateProductGeneralByCode(String code, UpdateProductGeneralDto updateProductGeneralDto);
+
+    ResponseProductDto createItem(CreateItemDto createItemDto);
 }

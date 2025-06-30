@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -43,4 +44,66 @@ public class ResponseProductDto {
     private Date createdAt;
 
     private Date updatedAt;
+
+
+
+    @Data
+    @AllArgsConstructor
+    @Builder
+    @NoArgsConstructor
+    public static class ResponseProductDtoItem {
+        private UUID id;
+
+        private String sku;
+
+        private String variant;
+
+        private List<String> imgUrls;
+
+        private BigDecimal price;
+
+        private int stock;
+
+        private int sold;
+
+        private List<ResponseProductDtoItemSpec> specs;
+
+        private Date createdAt;
+
+        private Date updatedAt;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @Builder
+    @NoArgsConstructor
+    public static class ResponseProductDtoItemSpec {
+        private UUID id;
+
+        private String key;
+
+        private String value;
+
+        private Date createdAt;
+
+        private Date updatedAt;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @Builder
+    @NoArgsConstructor
+    public static class ResponseProductDtoRating {
+        private UUID id;
+
+        private double score;
+
+        private String comment;
+
+        private List<String> imgUrls;
+
+        private Date createdAt;
+
+        private Date updatedAt;
+    }
 }
