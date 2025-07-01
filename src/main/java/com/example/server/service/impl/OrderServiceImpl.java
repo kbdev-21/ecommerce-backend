@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,18 +30,17 @@ public class OrderServiceImpl implements OrderService {
     public ResponseOrderDto createOrder(CreateOrderDto createOrderDto) {
         Order newOrder = orderMapper.fromCreateDto(createOrderDto);
 
+        List<Item> verifiedItems = new ArrayList<>();
         for (OrderDetail detail : newOrder.getDetails()) {
             Item item = detail.getItem();
-            int newStock = item.getStock() - detail.getQuantity();
-
-            if (newStock < 0) {
+            if(item.sell(detail.getQuantity())) {
+                verifiedItems.add(item);
+            }
+            else {
                 throw new CustomException(HttpStatus.CONFLICT, "Insufficient stock for item: " + item.getSku());
             }
-
-            item.setStock(newStock);
-            item.setSold(item.getSold() + detail.getQuantity());
-            itemRepository.save(item);
         }
+        itemRepository.saveAll(verifiedItems);
 
         return orderMapper.toResponseDto(orderRepository.save(newOrder));
     }

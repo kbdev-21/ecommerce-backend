@@ -2,6 +2,7 @@ package com.example.server.controller;
 
 import com.example.server.common.record.ApiResponse;
 import com.example.server.dto.item.CreateItemDto;
+import com.example.server.dto.item.ResponseItemDto;
 import com.example.server.dto.product.CreateProductDto;
 import com.example.server.dto.product.ResponseProductDto;
 import com.example.server.dto.product.UpdateProductGeneralDto;
@@ -64,11 +65,20 @@ public class ProductController {
     }
 
     @PostMapping("/api/v1/products/items")
-    public ApiResponse<ResponseProductDto> createItem(@Valid @RequestBody CreateItemDto createItemDto) {
+    public ApiResponse<ResponseItemDto> createItem(@Valid @RequestBody CreateItemDto createItemDto) {
         return new ApiResponse<>(
                 HttpStatus.CREATED.value(),
                 "Item created successfully.",
                 productService.createItem(createItemDto)
+        );
+    }
+
+    @GetMapping("/api/v1/products/items")
+    public ApiResponse<List<ResponseItemDto>> getItems() {
+        return new ApiResponse<>(
+                HttpStatus.CREATED.value(),
+                "Items retrieved successfully.",
+                productService.getItems()
         );
     }
 }

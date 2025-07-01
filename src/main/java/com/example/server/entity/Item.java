@@ -1,5 +1,6 @@
 package com.example.server.entity;
 
+import com.example.server.exception.CustomException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,5 +60,14 @@ public class Item {
 
     public String getFullName()  {
         return product.getName() + " (" + variant + ")";
+    }
+
+    public boolean sell(int quantity) {
+        if(stock < quantity) {
+            return false;
+        }
+        stock -= quantity;
+        sold += quantity;
+        return true;
     }
 }

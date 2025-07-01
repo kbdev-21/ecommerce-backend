@@ -1,6 +1,7 @@
 package com.example.server.service.impl;
 
 import com.example.server.dto.item.CreateItemDto;
+import com.example.server.dto.item.ResponseItemDto;
 import com.example.server.dto.product.CreateProductDto;
 import com.example.server.dto.product.ResponseProductDto;
 import com.example.server.dto.product.UpdateProductGeneralDto;
@@ -40,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ResponseProductDto> getProducts() {
         List<Product> products = productRepository.findAll();
         return products.stream()
-                .map(product -> productMapper.toResponseDto(product))
+                .map(productMapper::toResponseDto)
                 .toList();
     }
 
@@ -98,12 +99,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseProductDto createItem(CreateItemDto createItemDto) {
+    public ResponseItemDto createItem(CreateItemDto createItemDto) {
         Item newItem = itemMapper.fromCreateDto(createItemDto);
-        itemRepository.save(newItem);
 
-        Product updatedProduct = newItem.getProduct();
+        return itemMapper.toResponseDto(itemRepository.save(newItem));
+    }
 
-        return productMapper.toResponseDto(updatedProduct);
+    @Override
+    public List<ResponseItemDto> getItems() {
+        return itemRepository.findAll().stream().map(itemMapper::toResponseDto).toList();
     }
 }

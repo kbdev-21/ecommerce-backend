@@ -1,6 +1,7 @@
 package com.example.server.mapper;
 
 import com.example.server.dto.item.CreateItemDto;
+import com.example.server.dto.item.ResponseItemDto;
 import com.example.server.entity.Item;
 import com.example.server.entity.Product;
 import com.example.server.entity.Spec;
@@ -21,11 +22,22 @@ public class ItemMapper {
     private final ModelMapper modelMapper;
     private final ProductRepository productRepository;
 
+    public ResponseItemDto toResponseDto(Item item) {
+        return modelMapper.map(item, ResponseItemDto.class);
+    }
+
     public Item fromCreateDto(CreateItemDto createItemDto) {
         Date currentDate = new Date();
 
         Product product = productRepository.findByCode(createItemDto.getProductCode())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Product not found."));
+
+        Item item = modelMapper.map(createItemDto, Item.class);
+        item.setProduct(product);
+        item.setId(UUID.randomUUID());
+        item.setSold(0);
+        item.setCreatedAt(currentDate);
+        item.setUpdatedAt(currentDate);
 
         List<Spec> specs = createItemDto.getSpecs().stream()
                 .map(specDto -> {
@@ -35,15 +47,9 @@ public class ItemMapper {
                             .value(specDto.getValue())
                             .createdAt(currentDate)
                             .updatedAt(currentDate)
+                            .item(item)
                             .build();
                 }).toList();
-
-        Item item = modelMapper.map(createItemDto, Item.class);
-        item.setProduct(product);
-        item.setId(UUID.randomUUID());
-        item.setSold(0);
-        item.setCreatedAt(currentDate);
-        item.setUpdatedAt(currentDate);
         item.setSpecs(specs);
 
         return item;
