@@ -6,13 +6,14 @@ import com.example.server.dto.product.ResponseProductDto;
 import com.example.server.dto.product.UpdateProductGeneralDto;
 import com.example.server.entity.Item;
 import com.example.server.entity.Product;
-import com.example.server.exception.custom.NotFoundException;
+import com.example.server.exception.CustomException;
 import com.example.server.mapper.ItemMapper;
 import com.example.server.mapper.ProductMapper;
 import com.example.server.repository.ItemRepository;
 import com.example.server.repository.ProductRepository;
 import com.example.server.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,21 +47,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResponseProductDto getProductByCode(String code) {
         Product product = productRepository.findByCode(code)
-                .orElseThrow(() -> new NotFoundException("Product not found."));
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Product not found."));
         return productMapper.toResponseDto(product);
     }
 
     @Override
     public ResponseProductDto getProductBySearchName(String searchName) {
         Product product = productRepository.findBySearchName(searchName)
-                .orElseThrow(() -> new NotFoundException("Product not found."));
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Product not found."));
         return productMapper.toResponseDto(product);
     }
 
     @Override
     public ResponseProductDto updateProductGeneralByCode(String code, UpdateProductGeneralDto updateProductGeneralDto) {
         Product product = productRepository.findByCode(code)
-                .orElseThrow(() -> new NotFoundException("Product not found."));
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Product not found."));
 
         boolean isChanged = false;
         if (updateProductGeneralDto.getName() != null) {

@@ -1,7 +1,6 @@
 package com.example.server.exception;
 
 import com.example.server.common.record.ApiResponse;
-import com.example.server.exception.custom.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,14 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    /* custom exception */
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ApiResponse<Object>> handleCustomException(CustomException e) {
+        return ResponseEntity
+                .status(e.getStatus())
+                .body(new ApiResponse<>(e.getStatus().value(), e.getMessage(), null));
+    }
+
     /* postgresql duplicate unique fields */
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiResponse<Object>> handleDataIntegrityViolation(DataIntegrityViolationException e) {
@@ -24,14 +31,6 @@ public class GlobalExceptionHandler {
                         e.getMostSpecificCause().getMessage(),
                         null
                 ));
-    }
-
-    /* not found (custom exception) */
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ApiResponse<Object>> handleNotFound(NotFoundException e) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new ApiResponse<>(HttpStatus.NOT_FOUND.value(), e.getMessage(), null));
     }
 
     /* jakarta validation */

@@ -4,16 +4,16 @@ import com.example.server.dto.item.CreateItemDto;
 import com.example.server.entity.Item;
 import com.example.server.entity.Product;
 import com.example.server.entity.Spec;
-import com.example.server.exception.custom.NotFoundException;
+import com.example.server.exception.CustomException;
 import com.example.server.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class ItemMapper {
         Date currentDate = new Date();
 
         Product product = productRepository.findByCode(createItemDto.getProductCode())
-                .orElseThrow(() -> new NotFoundException("Product not found."));
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Product not found."));
 
         List<Spec> specs = createItemDto.getSpecs().stream()
                 .map(specDto -> {

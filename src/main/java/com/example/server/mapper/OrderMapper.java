@@ -6,18 +6,18 @@ import com.example.server.entity.Customer;
 import com.example.server.entity.Item;
 import com.example.server.entity.Order;
 import com.example.server.entity.OrderDetail;
-import com.example.server.exception.custom.NotFoundException;
+import com.example.server.exception.CustomException;
 import com.example.server.repository.CustomerRepository;
 import com.example.server.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -38,7 +38,7 @@ public class OrderMapper {
                 .map(orderDetail -> {
                     Item item = itemRepository.findBySku(
                             orderDetail.getItemSku()).orElseThrow(
-                                    () -> new NotFoundException("Item not found.")
+                                    () -> new CustomException(HttpStatus.NOT_FOUND, "Item not found.")
                     );
 
                     OrderDetail detail = modelMapper.map(orderDetail, OrderDetail.class);
@@ -55,7 +55,10 @@ public class OrderMapper {
                 })
                 .toList();
 
-        Customer customer = customerRepository.findById(createOrderDto.getCustomerId()).orElseThrow(() -> new NotFoundException("Item not found."));
+        Customer customer = customerRepository
+                .findById(createOrderDto.getCustomerId()).orElseThrow(
+                        () -> new CustomException(HttpStatus.NOT_FOUND, "Item not found.")
+                );
 
         newOrder.setId(UUID.randomUUID());
         newOrder.setDetails(details);

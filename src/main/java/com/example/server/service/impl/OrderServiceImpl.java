@@ -5,13 +5,13 @@ import com.example.server.dto.order.ResponseOrderDto;
 import com.example.server.entity.Item;
 import com.example.server.entity.Order;
 import com.example.server.entity.OrderDetail;
-import com.example.server.exception.custom.NotFoundException;
+import com.example.server.exception.CustomException;
 import com.example.server.mapper.OrderMapper;
 import com.example.server.repository.ItemRepository;
 import com.example.server.repository.OrderRepository;
 import com.example.server.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,8 +34,7 @@ public class OrderServiceImpl implements OrderService {
             int newStock = item.getStock() - detail.getQuantity();
 
             if (newStock < 0) {
-                // TODO: switch exception
-                throw new NotFoundException("Insufficient stock for item: " + item.getSku());
+                throw new CustomException(HttpStatus.CONFLICT, "Insufficient stock for item: " + item.getSku());
             }
 
             item.setStock(newStock);
