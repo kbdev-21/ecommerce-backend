@@ -30,10 +30,10 @@ public class Customer {
     @Column(name = "search_name", nullable = false)
     private String searchName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "phone_num", nullable = false)
+    @Column(name = "phone_num", nullable = false, unique = true)
     private String phoneNum;
 
     @Column(name = "address")

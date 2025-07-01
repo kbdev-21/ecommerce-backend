@@ -1,5 +1,7 @@
 package com.example.server.dto.product;
 
+import com.example.server.dto.item.ResponseItemDto;
+import com.example.server.dto.spec.ResponseSpecDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,57 +39,13 @@ public class ResponseProductDto {
 
     private List<String> imgUrls;
 
-    private List<ResponseProductDtoItem> items;
+    private List<ResponseItemDto> items;
 
     private List<ResponseProductDtoRating> ratings;
 
     private Date createdAt;
 
     private Date updatedAt;
-
-
-
-    @Data
-    @AllArgsConstructor
-    @Builder
-    @NoArgsConstructor
-    public static class ResponseProductDtoItem {
-        private UUID id;
-
-        private String sku;
-
-        private String variant;
-
-        private List<String> imgUrls;
-
-        private BigDecimal price;
-
-        private int stock;
-
-        private int sold;
-
-        private List<ResponseProductDtoItemSpec> specs;
-
-        private Date createdAt;
-
-        private Date updatedAt;
-    }
-
-    @Data
-    @AllArgsConstructor
-    @Builder
-    @NoArgsConstructor
-    public static class ResponseProductDtoItemSpec {
-        private UUID id;
-
-        private String key;
-
-        private String value;
-
-        private Date createdAt;
-
-        private Date updatedAt;
-    }
 
     @Data
     @AllArgsConstructor

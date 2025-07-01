@@ -20,13 +20,7 @@ public class ProductMapper {
     private final ModelMapper modelMapper;
 
     public ResponseProductDto toResponseDto(Product product) {
-        ResponseProductDto responseProductDto = modelMapper.map(product, ResponseProductDto.class);
-
-        responseProductDto.setAvgRating(product.getAvgRating());
-        responseProductDto.setTotalSold(product.getTotalSold());
-        responseProductDto.setTotalStock(product.getTotalStock());
-
-        return responseProductDto;
+        return modelMapper.map(product, ResponseProductDto.class);
     }
 
     public Product fromCreateDto(CreateProductDto reqDto) {

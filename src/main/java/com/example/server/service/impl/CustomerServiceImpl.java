@@ -21,8 +21,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public ResponseCustomerDto createCustomer(CreateCustomerDto createCustomerDto) {
-        Customer newCustomer = customerMapper.fromCreateDto(createCustomerDto);
-        Customer savedCustomer = customerRepository.save(newCustomer);
+        Customer savedCustomer = customerRepository
+                .save(customerMapper.fromCreateDto(createCustomerDto));
         return customerMapper.toResponseDto(savedCustomer);
     }
 

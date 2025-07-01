@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -41,4 +42,12 @@ public class Order {
 
     @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
+
+    public BigDecimal getTotalPrice() {
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (OrderDetail detail : details) {
+            totalPrice = totalPrice.add(detail.getPrice());
+        }
+        return totalPrice;
+    }
 }
