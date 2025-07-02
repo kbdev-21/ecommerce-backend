@@ -1,5 +1,6 @@
 package com.example.server.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -76,5 +77,16 @@ public class Product {
     public int getTotalSold() {
         if (items == null) return 0;
         return items.stream().mapToInt(Item::getSold).sum();
+    }
+
+    public BigDecimal getDisplayPrice() {
+        if (items == null || items.isEmpty()) {
+            return null; // or BigDecimal.ZERO if you prefer
+        }
+
+        return items.stream()
+                .map(Item::getPrice)
+                .min(BigDecimal::compareTo)
+                .orElse(null);
     }
 }

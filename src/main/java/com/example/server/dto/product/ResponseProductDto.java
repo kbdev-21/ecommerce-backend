@@ -31,6 +31,8 @@ public class ResponseProductDto {
 
     private String description;
 
+    private BigDecimal displayPrice;
+
     private Double avgRating; //unmapped
 
     private int totalStock; //unmapped

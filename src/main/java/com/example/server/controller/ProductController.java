@@ -3,6 +3,7 @@ package com.example.server.controller;
 import com.example.server.common.record.ApiResponse;
 import com.example.server.dto.item.CreateItemDto;
 import com.example.server.dto.item.ResponseItemDto;
+import com.example.server.dto.item.UpdateItemDto;
 import com.example.server.dto.product.CreateProductDto;
 import com.example.server.dto.product.ResponseProductDto;
 import com.example.server.dto.product.UpdateProductGeneralDto;
@@ -76,9 +77,20 @@ public class ProductController {
     @GetMapping("/api/v1/products/items")
     public ApiResponse<List<ResponseItemDto>> getItems() {
         return new ApiResponse<>(
-                HttpStatus.CREATED.value(),
+                HttpStatus.OK.value(),
                 "Items retrieved successfully.",
                 productService.getItems()
+        );
+    }
+
+    @PatchMapping("/api/v1/products/items/by-sku/{sku}")
+    public ApiResponse<ResponseItemDto> updateItemBySku(
+            @PathVariable String sku,
+            @Valid @RequestBody UpdateItemDto dto) {
+        return new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Item updated successfully.",
+                productService.updateItemBySku(sku, dto)
         );
     }
 }
