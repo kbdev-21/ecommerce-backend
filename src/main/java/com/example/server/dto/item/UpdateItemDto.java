@@ -1,6 +1,7 @@
 package com.example.server.dto.item;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -17,8 +18,10 @@ public class UpdateItemDto {
     @Size(min = 1, max = 20)
     private List<String> imgUrls;
 
+    @Min(0)
     private BigDecimal price;
 
+    @Min(0)
     private Integer stock;
 
     private List<UUID> removeSpecIds;
